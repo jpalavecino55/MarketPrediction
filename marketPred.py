@@ -60,7 +60,7 @@ for i,stock in enumerate(stocks):
     print(stock.isnull().sum())
     print(stock.describe())
 
-# establish 
+# lists for calculating moving average and min/max
 movingAverage = [7, 10, 14, 21, 50, 100]
 min_max = [7, 30, 365, 730]
 
