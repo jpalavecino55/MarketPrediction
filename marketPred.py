@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import datetime as dt
 from sklearn.preprocessing import MinMaxScaler
+import plotly.express as px
 
 def moving_average(df, days):
     for ma in days:
@@ -57,11 +58,11 @@ msft_df = msft_df[["Date", "Low", "Open", "Volume", "High", "Close", "Adj Close"
 fb_df = fb_df[["Date", "Low", "Open", "Volume", "High", "Close", "Adj Close"]]
 
 # convert the date column to datetime
-tsla_df['Date'] = pd.to_datetime(tsla_df['Date'])
-aapl_df['Date'] = pd.to_datetime(aapl_df['Date'])
-amzn_df['Date'] = pd.to_datetime(amzn_df['Date'])
-msft_df['Date'] = pd.to_datetime(msft_df['Date'])
-fb_df['Date'] = pd.to_datetime(fb_df['Date'])
+tsla_df['Date'] = pd.to_datetime(tsla_df['Date'],dayfirst=True)
+aapl_df['Date'] = pd.to_datetime(aapl_df['Date'],dayfirst=True)
+amzn_df['Date'] = pd.to_datetime(amzn_df['Date'],dayfirst=True)
+msft_df['Date'] = pd.to_datetime(msft_df['Date'],dayfirst=True)
+fb_df['Date'] = pd.to_datetime(fb_df['Date'],dayfirst=True)
 
 # delete all data prior to 1-1-2016
 tsla_df = tsla_df[~(tsla_df['Date'] <= '2016-1-1')]
@@ -69,6 +70,13 @@ aapl_df = aapl_df[~(aapl_df['Date'] <= '2016-1-1')]
 amzn_df = amzn_df[~(amzn_df['Date'] <= '2016-1-1')]
 msft_df = msft_df[~(msft_df['Date'] <= '2016-1-1')]
 fb_df = fb_df[~(fb_df['Date'] <= '2016-1-1')]
+
+# sort all data sets
+tsla_df.sort_values(by=['Date'])
+aapl_df.sort_values(by=['Date'])
+amzn_df.sort_values(by=['Date'])
+msft_df.sort_values(by=['Date'])
+fb_df.sort_values(by=['Date'])
 
 # make list of stock dataframes
 stocks = [aapl_df, amzn_df, fb_df, msft_df, tsla_df]
@@ -185,3 +193,18 @@ print(aapl_df.isnull().sum())
 print(amzn_df.isnull().sum())
 print(msft_df.isnull().sum())
 print(fb_df.isnull().sum())
+
+fig = px.line(tsla_df, x='Date', y='Close')
+fig.show()
+
+fig = px.line(aapl_df, x='Date', y='Close')
+fig.show()
+
+fig = px.line(amzn_df, x='Date', y='Close')
+fig.show()
+
+fig = px.line(msft_df, x='Date', y='Close')
+fig.show()
+
+fig = px.line(fb_df, x='Date', y='Close')
+fig.show()
